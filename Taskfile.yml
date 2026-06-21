@@ -1,0 +1,25 @@
+---
+# ref: https://taskfile.dev/
+
+version: "3"
+
+tasks:
+  install:
+    desc: Install dependencies for all extensions
+    cmds:
+      - npm install --prefix extensions/clipboard-to-pdf
+      - npm install --prefix extensions/converter
+
+  build:
+    desc: Build all extensions
+    cmds:
+      - npm run build --prefix extensions/clipboard-to-pdf
+      - npm run build --prefix extensions/converter
+
+  dev:
+    desc: "Start dev server for one extension — usage: task dev EXT=converter"
+    cmds:
+      - "npm run dev --prefix extensions/{{.EXT}}"
+    preconditions:
+      - sh: "test -n '{{.EXT}}'"
+        msg: "Specify extension: task dev EXT=converter"
